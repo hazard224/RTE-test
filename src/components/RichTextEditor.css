@@ -1,0 +1,432 @@
+/* Rich Text Editor Styles */
+
+.rte-container {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-width: 1100px;
+  width: 100%;
+  background: #fff;
+}
+
+/* Toolbar */
+.rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  background: #f9f9f9;
+}
+
+.rte-toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background: #ddd;
+  margin: 0 4px;
+}
+
+/* Toolbar Buttons */
+.rte-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.rte-btn:hover {
+  background: #e8e8e8;
+  border-color: #ccc;
+}
+
+.rte-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.rte-btn.active {
+  background: #e0e7ff;
+  border-color: #6366f1;
+  color: #4338ca;
+}
+
+.rte-btn.danger:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+/* Button Groups */
+.rte-btn-group {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.rte-btn-group .rte-btn {
+  border-radius: 0;
+}
+
+.rte-btn-group .rte-btn:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.rte-btn-group .rte-btn:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+/* Select Dropdowns */
+.rte-select {
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.rte-select:hover {
+  border-color: #aaa;
+}
+
+.rte-select:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+/* Color Input */
+.rte-color-btn {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.rte-color-btn svg {
+  font-size: 14px;
+}
+
+.rte-color-bar {
+  width: 16px;
+  height: 3px;
+  border-radius: 1px;
+  margin-top: 2px;
+}
+
+.rte-color-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.rte-color-preview {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+}
+
+/* Color Picker Popover */
+.rte-color-picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.rte-color-picker-popover {
+  position: fixed;
+  z-index: 100;
+}
+
+/* Editor Content Area */
+.rte-content {
+  padding: 16px;
+  min-height: 200px;
+}
+
+.rte-content .ProseMirror {
+  outline: none;
+  min-height: inherit;
+}
+
+.rte-content .ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.rte-content .ProseMirror p {
+  margin: 0.5em 0;
+}
+
+.rte-content .ProseMirror a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rte-content .ProseMirror table {
+  border-collapse: collapse;
+  margin: 1em 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.rte-content .ProseMirror th,
+.rte-content .ProseMirror td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.rte-content .ProseMirror th {
+  background: #f5f5f5;
+  font-weight: bold;
+}
+
+.rte-content .ProseMirror .selectedCell {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* HTML View */
+.rte-html-view {
+  display: flex;
+  background: #fff;
+}
+
+.rte-line-numbers {
+  padding: 16px 8px 16px 16px;
+  background: #f5f5f5;
+  color: #999;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: right;
+  user-select: none;
+  border-right: 1px solid #e0e0e0;
+  min-width: 40px;
+}
+
+.rte-html-textarea {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  outline: none;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 21px;
+  resize: none;
+}
+
+/* Resize Handle */
+.rte-resize-handle {
+  height: 8px;
+  background: #f5f5f5;
+  border-top: 1px solid #ddd;
+  cursor: ns-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.rte-resize-handle:hover {
+  background: #e8e8e8;
+}
+
+.rte-resize-handle.active {
+  background: #e0e7ff;
+}
+
+.rte-resize-bar {
+  width: 40px;
+  height: 4px;
+  background: #bbb;
+  border-radius: 2px;
+}
+
+.rte-resize-handle.active .rte-resize-bar {
+  background: #6366f1;
+}
+
+/* Modal/Dialog */
+.rte-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.rte-modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  min-width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.rte-modal h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+}
+
+.rte-modal-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.rte-modal-input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.rte-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.rte-modal-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.rte-modal-btn:hover {
+  background: #f5f5f5;
+}
+
+.rte-modal-btn.primary {
+  background: #6366f1;
+  border-color: #6366f1;
+  color: #fff;
+}
+
+.rte-modal-btn.primary:hover {
+  background: #4f46e5;
+}
+
+/* Table Selector Popover */
+.rte-popover {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.rte-popover-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.rte-table-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 3px;
+}
+
+.rte-table-cell {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.rte-table-cell:hover,
+.rte-table-cell.active {
+  border-color: #6366f1;
+  background: #e0e7ff;
+}
+
+/* Table Operations */
+.rte-table-operations {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+}
+
+.rte-table-op-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 14px;
+  text-align: left;
+}
+
+.rte-table-op-btn:hover {
+  background: #f5f5f5;
+  border-color: #ddd;
+}
+
+.rte-table-op-btn.danger:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+.rte-table-op-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.rte-table-op-btn .rte-icon-small {
+  font-size: 8px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+}
+
+.rte-table-op-btn span {
+  flex: 1;
+}
