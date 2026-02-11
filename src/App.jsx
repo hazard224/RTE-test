@@ -23,18 +23,19 @@ export default function App() {
                 line-height: 1.6;
                 background-color: ${backgroundColor};
               }
-              table {
-                border-collapse: collapse;
-                width: 100%;
-                margin: 1em 0;
+              p {
+                margin: 0.5em 0;
               }
-              th, td {
-                border: 1px solid #ccc;
-                padding: 8px;
-                text-align: left;
+              ul, ol {
+                padding-left: 1.5em;
+                margin: 0.5em 0;
               }
-              th {
-                background-color: #f5f5f5;
+              li {
+                margin: 0.25em 0;
+              }
+              a {
+                color: #2563eb;
+                text-decoration: underline;
               }
             </style>
           </head>

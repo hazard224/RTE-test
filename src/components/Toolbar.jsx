@@ -1,4 +1,4 @@
-import { memo, useState, useCallback } from "react"
+import { useState, useCallback } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faUndo,
@@ -35,7 +35,7 @@ import { fontFamilies, fontSizes } from "../constants/editorConfig"
 /**
  * Editor Toolbar component - No MUI, uses Font Awesome icons
  */
-const Toolbar = memo(function Toolbar({
+export default function Toolbar({
   editor,
   showHtml,
   setShowHtml,
@@ -53,6 +53,8 @@ const Toolbar = memo(function Toolbar({
   const [tablePopoverOpen, setTablePopoverOpen] = useState(false)
   const [tablePopoverPos, setTablePopoverPos] = useState({ top: 0, left: 0 })
   const [hoveredCell, setHoveredCell] = useState({ rows: 0, cols: 0 })
+  const [showNestedTableGrid, setShowNestedTableGrid] = useState(false)
+  const [hoveredNestedCell, setHoveredNestedCell] = useState({ rows: 0, cols: 0 })
   const [linkDialogOpen, setLinkDialogOpen] = useState(false)
   const [linkUrl, setLinkUrl] = useState("")
   const [textColorPickerOpen, setTextColorPickerOpen] = useState(false)
@@ -307,7 +309,14 @@ const Toolbar = memo(function Toolbar({
         {/* Alignment */}
         <div className="rte-btn-group">
           <button
-            className={`rte-btn ${editor.isActive({ textAlign: "left" }) ? "active" : ""}`}
+            className={`rte-btn ${
+              editor.isActive({ textAlign: "left" }) || 
+              (!editor.isActive({ textAlign: "center" }) && 
+               !editor.isActive({ textAlign: "right" }) && 
+               !editor.isActive({ textAlign: "justify" }))
+                ? "active" 
+                : ""
+            }`}
             onClick={() => editor.chain().focus().setTextAlign("left").run()}
             title="Align Left"
           >
@@ -415,6 +424,8 @@ const Toolbar = memo(function Toolbar({
             onClick={() => {
               setTablePopoverOpen(false)
               setHoveredCell({ rows: 0, cols: 0 })
+              setShowNestedTableGrid(false)
+              setHoveredNestedCell({ rows: 0, cols: 0 })
             }}
           />
           <div
@@ -425,17 +436,26 @@ const Toolbar = memo(function Toolbar({
               // Show table operations when inside a table
               <div className="rte-table-operations">
                 <div className="rte-popover-label">Table Operations</div>
-                <button
-                  className="rte-table-op-btn"
-                  onClick={() => {
-                    editor.chain().focus().addRowAfter().run()
-                    setTablePopoverOpen(false)
-                  }}
-                >
-                  <FontAwesomeIcon icon={faGripLines} />
-                  <FontAwesomeIcon icon={faPlus} className="rte-icon-small" />
-                  <span>Add Row Below</span>
-                </button>
+                {!showNestedTableGrid ? (
+                  <>
+                    <button
+                      className="rte-table-op-btn"
+                      onClick={() => setShowNestedTableGrid(true)}
+                    >
+                      <FontAwesomeIcon icon={faTable} />
+                      <span>Insert Nested Table</span>
+                    </button>
+                    <button
+                      className="rte-table-op-btn"
+                      onClick={() => {
+                        editor.chain().focus().addRowAfter().run()
+                        setTablePopoverOpen(false)
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faGripLines} />
+                      <FontAwesomeIcon icon={faPlus} className="rte-icon-small" />
+                      <span>Add Row Below</span>
+                    </button>
                 <button
                   className="rte-table-op-btn"
                   onClick={() => {
@@ -479,6 +499,51 @@ const Toolbar = memo(function Toolbar({
                   <FontAwesomeIcon icon={faTrash} />
                   <span>Delete Table</span>
                 </button>
+                  </>
+                ) : (
+                  // Nested table grid selector
+                  <>
+                    <button
+                      className="rte-table-op-btn"
+                      onClick={() => setShowNestedTableGrid(false)}
+                      style={{ marginBottom: 8 }}
+                    >
+                      ← Back
+                    </button>
+                    <div className="rte-popover-label">
+                      {hoveredNestedCell.rows > 0 && hoveredNestedCell.cols > 0
+                        ? `${hoveredNestedCell.rows} × ${hoveredNestedCell.cols} Nested Table`
+                        : "Select nested table size"}
+                    </div>
+                    <div className="rte-table-grid">
+                      {Array.from({ length: 8 }).map((_, rowIndex) =>
+                        Array.from({ length: 8 }).map((_, colIndex) => (
+                          <div
+                            key={`nested-${rowIndex}-${colIndex}`}
+                            className={`rte-table-cell ${
+                              rowIndex < hoveredNestedCell.rows && colIndex < hoveredNestedCell.cols
+                                ? "active"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              editor
+                                .chain()
+                                .focus()
+                                .insertTable({ rows: rowIndex + 1, cols: colIndex + 1 })
+                                .run()
+                              setTablePopoverOpen(false)
+                              setShowNestedTableGrid(false)
+                              setHoveredNestedCell({ rows: 0, cols: 0 })
+                            }}
+                            onMouseEnter={() =>
+                              setHoveredNestedCell({ rows: rowIndex + 1, cols: colIndex + 1 })
+                            }
+                          />
+                        ))
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
             ) : (
               // Show table size selector when not in a table
@@ -597,6 +662,4 @@ const Toolbar = memo(function Toolbar({
       )}
     </>
   )
-})
-
-export default Toolbar
+}
